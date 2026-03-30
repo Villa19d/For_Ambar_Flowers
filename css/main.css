@@ -1067,3 +1067,252 @@ body {
     opacity: 1; 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   FORMAS ELEGANTES - Diseño Refinado
+═══════════════════════════════════════════════════════════════ */
+
+/* Polvo de estrellas */
+.wonder-stardust {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes stardustFloat {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(0);
+  }
+  20% {
+    opacity: var(--max-opacity, 0.7);
+    transform: scale(1) translateY(-10px);
+  }
+  80% {
+    opacity: calc(var(--max-opacity, 0.7) * 0.5);
+    transform: scale(0.8) translateY(-40px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translateY(-60px);
+  }
+}
+
+/* Ripples suaves */
+.wonder-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes rippleFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  30% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  70% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.5);
+  }
+}
+
+/* Pétalos elegantes */
+.wonder-petal-elegant {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes petalFloat {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--rot, 0deg)) translateY(0) scale(0.5);
+  }
+  25% {
+    opacity: 0.5;
+    transform: rotate(calc(var(--rot, 0deg) + 15deg)) translateY(-20px) scale(1);
+  }
+  75% {
+    opacity: 0.3;
+    transform: rotate(calc(var(--rot, 0deg) + 30deg)) translateY(-60px) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--rot, 0deg) + 45deg)) translateY(-100px) scale(0.3);
+  }
+}
+
+/* Glows suaves */
+.wonder-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes glowFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  40% {
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    opacity: 0.1;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* Ajustes para que las formas no se superpongan a las letras */
+#lyrics {
+  z-index: 30;
+}
+
+#floating-forms {
+  z-index: 15;
+}
+
+#wonder-canvas {
+  z-index: 5;
+}
+
+.flowers {
+  z-index: 10;
+}
+
+/* Mejora de la tipografía de las letras */
+#lyrics {
+  text-shadow: 
+    0 0 20px rgba(255, 215, 120, 0.3),
+    0 0 40px rgba(255, 200, 100, 0.2);
+  letter-spacing: 0.15em;
+  font-weight: 300;
+}
+
+#lyrics.ambar-message {
+  text-shadow: 
+    0 0 30px rgba(255, 215, 120, 0.5),
+    0 0 60px rgba(255, 200, 100, 0.3);
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   FRASES FLOTANTES DE FONDO (No interfieren con letras principales)
+═══════════════════════════════════════════════════════════════ */
+
+.wonder-floating-phrase {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 18;
+  font-weight: 300;
+  animation: phraseFloatBg 4.5s ease-out forwards;
+  text-shadow: 0 0 8px rgba(255, 215, 120, 0.4);
+}
+
+@keyframes phraseFloatBg {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.7);
+  }
+  15% {
+    opacity: 0.7;
+    transform: translate(calc(var(--move-x, 0px) * 0.3), calc(var(--move-y, -40px) * 0.2)) scale(1);
+  }
+  40% {
+    opacity: 0.85;
+    transform: translate(calc(var(--move-x, 0px) * 0.7), calc(var(--move-y, -40px) * 0.6)) scale(1.05);
+  }
+  70% {
+    opacity: 0.5;
+    transform: translate(var(--move-x, 0px), calc(var(--move-y, -40px) * 0.9)) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--move-x, 0px) * 1.2), var(--move-y, -100px)) scale(0.6);
+  }
+}
+
+/* Asegurar que las letras principales estén por ENCIMA de todo */
+#lyrics {
+  z-index: 30 !important;
+  position: fixed;
+  bottom: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 85%;
+  max-width: 700px;
+  background: transparent;
+  pointer-events: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(255, 215, 120, 0.3);
+}
+
+/* Las flores también tienen prioridad */
+.flowers {
+  z-index: 10;
+  position: relative;
+}
+
+/* Contenedor de formas flotantes está DETRÁS de las letras */
+#floating-forms {
+  z-index: 15;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Canvas de partículas en el fondo */
+#wonder-canvas {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

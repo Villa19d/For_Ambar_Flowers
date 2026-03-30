@@ -1,10 +1,9 @@
 // ═══════════════════════════════════════════════════════════════════
-//  WONDER VISUAL ENGINE — Para Ambar ✨
-//  anim.js - Versión Completa Corregida
+//  WONDER VISUAL ENGINE — Frases Flotantes en Fondo 🌸
+//  Las letras principales NO se modifican
 // ═══════════════════════════════════════════════════════════════════
 
-// ─── DATOS DE LETRAS (tiempos ajustados para tu MP3) ───────────
-
+// ─── DATOS DE LETRAS (tiempos ajustados) ─────────────────────────
 var lyricsData = [
   { text: "You're my sunlight on a rainy day", time: 12 },
   { text: "Would take my heart with you if you walked away", time: 16 },
@@ -51,59 +50,68 @@ var lyricsData = [
   { text: "I don't wanna let go, I've never been so sure in my life", time: 153 }
 ];
 
-// ─── MENSAJES ESPECIALES PARA ÁMBAR ─────────────────────────────
-var ambarMessages = [
-  { text: "Eres lo más maravilloso de mi vida",          time: 44,  duration: 4 },
-  { text: "Tienes unos ojos preciosos Ámbar",               time: 70,  duration: 4.5 },
-  { text: "Eres mi vida entera, corazón",                time: 120, duration: 4 },
-  { text: "Te amo más que a nada en este mundo 🌸",      time: 159, duration: 5 },
-  { text: "Gracias por existir mi amor", time: 105, duration: 4 },
-  { text: "Eres perfecta tal como eres pinche niña hermosaa", time: 140, duration: 4 }
+// ─── FRASES FLOTANTES PARA ÁMBAR  ──
+var ambarFloatingPhrases = [
+  // Intro - primeros segundos
+  { text: "Eres lo más increíble que me ha pasado", time: 5, duration: 4.5 },
+  { text: "Me traes completamente enamorado, mujer", time: 9, duration: 4 },
+  { text: "Tus ojitos preciosos me tienen loco", time: 13, duration: 4.5 },
+  { text: "Mi niña bonita, mi hermosa", time: 17, duration: 4 },
+  { text: "Mi mundo es mas bonito desde que llegaste", time: 21, duration: 4 },
+  
+  // Primer tercio de la canción
+  { text: "Quiero besarte hasta que amanezca", time: 25, duration: 4.5 },
+  { text: "No hay nadie como tu en este universo", time: 29, duration: 4.5 },
+  { text: "Iluminas hasta mis días más grises", time: 33, duration: 4 },
+  { text: "Amos a dormir juntos, mi amor", time: 37, duration: 4 },
+  { text: "Gracias por existir en mi vida", time: 41, duration: 4.5 },
+  
+  // Mitad de la canción
+  { text: "Eres perfecta tal cual, mi niña hermosa", time: 46, duration: 5 },
+  { text: "Cada día te amo más, con todo mi ser", time: 51, duration: 4 },
+  { text: "Eres la mujer más maravillosa y hermosa", time: 55, duration: 4 },
+  { text: "Que nadie me despierte de este sueño contigo", time: 59, duration: 4.5 },
+  { text: "Te amo más que a nada en este mundo", time: 63, duration: 4.5 },
+  
+  // Segundo tercio
+  { text: "Admiro todo de ti, mi inteligente preciosa", time: 68, duration: 4 },
+  { text: "Tu sonrisa me mamaa mujer", time: 72, duration: 4 },
+  { text: "Y tu risa… aghh, me vuelve adicto", time: 76, duration: 4.5 },
+  { text: "¿Por que eres tan maravillosa?", time: 80, duration: 3.5 },
+  { text: "Eres un sueño hecho realidad", time: 84, duration: 4 },
+  
+  // Hacia el final
+  { text: "No quiero imaginar mi vida sin ti", time: 89, duration: 4.5 },
+  { text: "Quédate a mi lado toda la vida", time: 93, duration: 4 },
+  { text: "Quiero vivir miles de recuerdos a tu lado", time: 97, duration: 4 },
+  { text: "Eres mi motor, corazón", time: 101, duration: 4 },
+  { text: "Eres excelente en todo lo que haces,te admiro", time: 105, duration: 4.5 },
+  
+  // Últimos compases
+  { text: "Tu me haces querer ser mejor", time: 110, duration: 4 },
+  { text: "Eres mi mayor tesoro, mi Ámbar", time: 114, duration: 4 },
+  { text: "Gracias por elegirme cada día", time: 118, duration: 4 },
+  { text: "Eres mi todo, siempre", time: 122, duration: 4.5 },
+  { text: "Te amo con cada fibra de mi ser", time: 126, duration: 4 },
+  
+  // Final de la canción
+  { text: "Mi vida hermosa eres la mejor", time: 131, duration: 4.5 },
+  { text: "Mi princesa, eres la mas capaz para todo", time: 135, duration: 4 },
+  { text: "Eres mi mejor amiga, novia y equipo", time: 139, duration: 4.5 },
+  { text: "Gracias por ser quien eres, mi amor", time: 143, duration: 4.5 },
+  { text: "Te amo más de lo que las palabras pueden decir", time: 148, duration: 5 },
+  { text: "Mi noña bonita, Te Amo", time: 153, duration: 5 } // Un último cierre personal
 ];
 
-
-// ─── MAPEO DE FRASES A TIPOS DE FORMAS ──────────────────────────
-var phraseToVisual = {
-  "You're my sunlight on a rainy day": { type: "orb", color: "gold", count: 6 },
-  "Would take my heart with you if you walked away": { type: "crystal", color: "rose", count: 5 },
-  "I'm a mess right now, I'm a wreck right now": { type: "wave", color: "blue", count: 5 },
-  "I'm waiting for the moment that you let me down": { type: "thread", color: "silver", count: 4 },
-  "If you cut the cord, I don't know what I'd do": { type: "thread", color: "silver", count: 6 },
-  "Don't wanna skydive without my parachute": { type: "star", color: "white", count: 8 },
-  "I'm a mess right now, baby, help me out": { type: "wave", color: "blue", count: 5 },
-  "I'm scared I'm gonna wake up and you'll let me down": { type: "wave", color: "blue", count: 6 },
-  "This feeling doesn't fade no matter how hard that I try": { type: "petal", color: "gold", count: 6 },
-  "I always think about it at the same time every night": { type: "orb", color: "silver", count: 7 },
-  "It's 3:05": { type: "star", color: "gold", count: 10, symbol: "3:05" },
-  "I'm on a rollercoaster ride": { type: "wave", color: "mixed", count: 6 },
-  "Hoping you don't change your mind": { type: "crystal", color: "silver", count: 5 },
-  "I don't wanna let go, never been so sure in my life": { type: "orb", color: "warm", count: 6 },
-  "I'm terrified": { type: "wave", color: "blue", count: 7 },
-  "You'll turn around and say goodbye": { type: "thread", color: "silver", count: 5 },
-  "I don't wanna let go, I've never been so sure in my life": { type: "orb", color: "warm", count: 6 },
-  "If there's a door to Heaven, baby, you're the key": { type: "star", color: "gold", count: 10 },
-  "And if I had to beg, I'd be on my knees": { type: "petal", color: "rose", count: 5 },
-  "Oh, please don't say anything has changed": { type: "wave", color: "mixed", count: 5 },
-  "You're the one I wanna wake up next to every day": { type: "orb", color: "warm", count: 7 },
-  "I want to be with you": { type: "petal", color: "rose", count: 7 },
-  "I want to fly with you": { type: "star", color: "gold", count: 10 },
-  "I don't wanna let go, never been so sure": { type: "orb", color: "warm", count: 6 },
-  "Baby, I'm terrified": { type: "wave", color: "blue", count: 6 }
-};
-
-// ─── PALETAS DE COLORES ─────────────────────────────────────────
+// ─── PALETAS DE COLORES ELEGANTES ────────────────────────────────
 var colorPalettes = {
-  gold:   ["rgba(255,215,80,",  "rgba(255,180,40,",  "rgba(255,240,140,"],
-  silver: ["rgba(180,210,255,", "rgba(200,230,255,", "rgba(150,190,240,"],
-  rose:   ["rgba(255,180,180,", "rgba(255,140,160,", "rgba(255,200,200,"],
-  blue:   ["rgba(80,160,255,",  "rgba(100,200,255,", "rgba(60,140,220,"],
-  warm:   ["rgba(255,200,100,", "rgba(255,230,150,", "rgba(240,180,80,"],
-  white:  ["rgba(255,255,255,", "rgba(240,248,255,", "rgba(255,250,240,"],
-  mixed:  ["rgba(255,215,80,",  "rgba(100,200,255,", "rgba(255,180,180,"]
+  gold:   ["rgba(255,215,120,",  "rgba(255,200,100,",  "rgba(255,220,140,"],
+  rose:   ["rgba(255,200,180,", "rgba(255,170,150,", "rgba(255,190,170,"],
+  blue:   ["rgba(140,180,255,",  "rgba(120,160,240,", "rgba(160,200,255,"]
 };
 
 // ═══════════════════════════════════════════════════════════════════
-//  TODO EL CÓDIGO QUE TOCA EL DOM DENTRO DE DOMContentLoaded
+//  CÓDIGO PRINCIPAL
 // ═══════════════════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -114,7 +122,44 @@ document.addEventListener("DOMContentLoaded", function() {
   var canvas = document.querySelector("#wonder-canvas");
   var ctx = canvas ? canvas.getContext("2d") : null;
 
-  // ─── CONFIGURACIÓN DEL CANVAS DE PARTÍCULAS ────────────────────
+  // ─── ZONAS PROHIBIDAS (NO aparecer sobre flores ni sobre el área de letras) ───
+  var forbiddenZones = [
+  { xMin: 35, xMax: 65, yMin: 58, yMax: 92 },   // Zona de flores (un poco más pequeña)
+  { xMin: 38, xMax: 62, yMin: 25, yMax: 48 }    // Zona de letras (más centrada)
+];
+  
+  function isSafePosition(x, y) {
+    for (var i = 0; i < forbiddenZones.length; i++) {
+      var zone = forbiddenZones[i];
+      if (x >= zone.xMin && x <= zone.xMax && y >= zone.yMin && y <= zone.yMax) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+ function getSafePosition() {
+  var maxAttempts = 40;
+  // Margen de 8% en los bordes para que no se peguen a la pared
+  var margin = 8;
+  
+  for (var i = 0; i < maxAttempts; i++) {
+    var x = margin + Math.random() * (100 - margin * 2);
+    var y = margin + Math.random() * (100 - margin * 2);
+    if (isSafePosition(x, y)) {
+      return { x: x, y: y };
+    }
+  }
+  
+  // Si no encuentra, devuelve posiciones con más margen
+  var side = Math.floor(Math.random() * 4);
+  if (side === 0) return { x: margin + Math.random() * 25, y: margin + Math.random() * 40 };
+  if (side === 1) return { x: 75 - Math.random() * 25, y: margin + Math.random() * 40 };
+  if (side === 2) return { x: margin + Math.random() * 25, y: 60 - Math.random() * 30 };
+  return { x: 75 - Math.random() * 25, y: 60 - Math.random() * 30 };
+}
+
+  // ─── CONFIGURACIÓN DEL CANVAS ───────────────────────────────────
   function resizeCanvas() {
     if (!canvas) return;
     canvas.width = window.innerWidth;
@@ -123,53 +168,45 @@ document.addEventListener("DOMContentLoaded", function() {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  // ─── PARTÍCULAS DE FONDO ───────────────────────────────────────
+  // ─── PARTÍCULAS DE FONDO ELEGANTES ─────────────────────────────
   function Particle() { this.reset(); }
   
   Particle.prototype.reset = function() {
     this.x = Math.random() * window.innerWidth;
     this.y = Math.random() * window.innerHeight;
-    this.radius = Math.random() * 2.5 + 0.5;
-    this.opacity = Math.random() * 0.5 + 0.1;
-    this.speed = Math.random() * 0.4 + 0.08;
+    this.radius = Math.random() * 1.5 + 0.3;
+    this.opacity = Math.random() * 0.3 + 0.05;
+    this.speed = Math.random() * 0.2 + 0.03;
     this.angle = Math.random() * Math.PI * 2;
-    this.drift = (Math.random() - 0.5) * 0.4;
+    this.drift = (Math.random() - 0.5) * 0.2;
     this.pulse = Math.random() * Math.PI * 2;
-    this.pulseSpd = Math.random() * 0.03 + 0.008;
-    this.isGold = Math.random() > 0.6;
+    this.pulseSpd = Math.random() * 0.02 + 0.005;
+    this.isGold = Math.random() > 0.7;
   };
   
   Particle.prototype.update = function() {
     this.y -= this.speed;
     this.x += Math.sin(this.angle) * this.drift;
-    this.angle += 0.015;
+    this.angle += 0.008;
     this.pulse += this.pulseSpd;
-    this.r = this.radius * (1 + Math.sin(this.pulse) * 0.4);
+    this.r = this.radius * (1 + Math.sin(this.pulse) * 0.3);
     if (this.y < -20) this.reset();
   };
   
   Particle.prototype.draw = function(c) {
     var col = this.isGold
-      ? "rgba(255,215,120," + this.opacity + ")"
-      : "rgba(180,210,255," + this.opacity + ")";
+      ? "rgba(255,215,140," + this.opacity + ")"
+      : "rgba(180,200,240," + this.opacity + ")";
     c.save();
     c.beginPath();
     c.arc(this.x, this.y, this.r, 0, Math.PI * 2);
     c.fillStyle = col;
     c.fill();
-    
-    var grd = c.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5);
-    grd.addColorStop(0, col.replace(/[\d.]+\)$/, "0.2)"));
-    grd.addColorStop(1, "rgba(0,0,0,0)");
-    c.beginPath();
-    c.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2);
-    c.fillStyle = grd;
-    c.fill();
     c.restore();
   };
 
   var particles = [];
-  for (var i = 0; i < 150; i++) particles.push(new Particle());
+  for (var i = 0; i < 100; i++) particles.push(new Particle());
 
   function animateCanvas() {
     if (!ctx) return;
@@ -188,297 +225,204 @@ document.addEventListener("DOMContentLoaded", function() {
     return p[Math.floor(Math.random() * p.length)];
   }
   
-  function rndPos() {
-    return { x: 5 + Math.random() * 90, y: 5 + Math.random() * 80 };
-  }
-  
   function addEl(el, dur) {
     if (!floatingEl) return;
     floatingEl.appendChild(el);
     setTimeout(function() { 
       if (el.parentNode) el.parentNode.removeChild(el); 
-    }, dur * 1000 + 800);
+    }, dur * 1000 + 500);
   }
   
   function trimFloating() {
-    if (floatingEl && floatingEl.children.length > 100) {
-      while (floatingEl.children.length > 80) {
+    if (floatingEl && floatingEl.children.length > 120) {
+      while (floatingEl.children.length > 100) {
         floatingEl.removeChild(floatingEl.firstChild);
       }
     }
   }
 
-  // ─── CREACIÓN DE FORMAS VISUALES ───────────────────────────────
-  function createOrb(palette, size) {
+  // ─── FRASES FLOTANTES DE FONDO (NO TOCAN LAS LETRAS) ────────────
+  function createFloatingPhrase(text, palette) {
+    var pos = getSafePosition();
     var el = document.createElement("div");
-    el.className = "wonder-orb";
-    var p = rndPos();
-    var s = size || (15 + Math.random() * 85);
+    el.className = "wonder-floating-phrase";
     var c = rndColor(palette);
-    var dur = 5 + Math.random() * 7;
-    var op = 0.4 + Math.random() * 0.55;
+    var dur = 4 + Math.random() * 2.5;
+    var fontSize = 13 + Math.random() * 7;
+    var rot = (Math.random() - 0.5) * 12;
+    var directionX = (Math.random() - 0.5) * 60;
+    var directionY = -40 - Math.random() * 50;
+    
+    el.textContent = text;
+    el.style.cssText = 
+      "left:" + pos.x + "%;" +
+      "top:" + pos.y + "%;" +
+      "font-family:'Cormorant Garamond', serif;" +
+      "font-size:" + fontSize + "px;" +
+      "font-weight:300;" +
+      "font-style:italic;" +
+      "color:" + c + "0.85);" +
+      "text-shadow:0 0 10px " + c + "0.5);" +
+      "letter-spacing:0.02em;" +
+      "white-space:nowrap;" +
+      "animation: phraseFloatBg " + dur + "s ease-out forwards;" +
+      "opacity:0;" +
+      "pointer-events:none;" +
+      "position:absolute;" +
+      "transform:rotate(" + rot + "deg);" +
+      "z-index:18;" +
+      "--move-x:" + directionX + "px;" +
+      "--move-y:" + directionY + "px;";
+    
+    addEl(el, dur);
+  }
+
+  // ─── FORMAS ELEGANTES ──────────────────────────────────────────
+  
+  // Polvo de estrellas
+  function createStardust(palette, count) {
+    for (var j = 0; j < count; j++) {
+      var pos = getSafePosition();
+      var el = document.createElement("div");
+      el.className = "wonder-stardust";
+      var size = 2 + Math.random() * 4;
+      var c = rndColor(palette);
+      var dur = 3 + Math.random() * 3;
+      var opacity = 0.4 + Math.random() * 0.4;
+      
+      el.style.cssText = 
+        "left:" + pos.x + "%;" +
+        "top:" + pos.y + "%;" +
+        "width:" + size + "px;" +
+        "height:" + size + "px;" +
+        "background:" + c + opacity + ");" +
+        "border-radius:50%;" +
+        "box-shadow:0 0 " + (size * 2) + "px " + c + (opacity * 0.8) + ");" +
+        "animation: stardustFloat " + dur + "s ease-out forwards;" +
+        "opacity:0;" +
+        "pointer-events:none;" +
+        "position:absolute;" +
+        "z-index:16;";
+      
+      addEl(el, dur);
+    }
+  }
+  
+  // Pétalos sutiles
+  function createPetal(palette) {
+    var pos = getSafePosition();
+    var el = document.createElement("div");
+    el.className = "wonder-petal-elegant";
+    var size = 6 + Math.random() * 10;
+    var c = rndColor(palette);
+    var dur = 5 + Math.random() * 3;
+    var rot = Math.random() * 360;
     
     el.style.cssText = 
-      "left:" + p.x + "%;" +
-      "top:" + p.y + "%;" +
-      "width:" + s + "px;" +
-      "height:" + s + "px;" +
-      "background:radial-gradient(circle at 35% 35%, " + c + "0.9), " + c + "0.1);" +
-      "--dur:" + dur + "s;" +
-      "--max-opacity:" + op + ";" +
-      "--blur:" + (s * 0.2) + "px;" +
-      "--tx1:" + (Math.random() * 60 - 30) + "px;" +
-      "--tx2:" + (Math.random() * 90 - 45) + "px;" +
-      "--ty2:-" + (20 + Math.random() * 60) + "px;" +
-      "--tx3:" + (Math.random() * 70 - 35) + "px;" +
-      "--ty3:-" + (50 + Math.random() * 70) + "px;" +
-      "--tx4:" + (Math.random() * 50 - 25) + "px;" +
-      "--ty4:-" + (80 + Math.random() * 80) + "px;";
+      "left:" + pos.x + "%;" +
+      "top:" + pos.y + "%;" +
+      "width:" + size + "px;" +
+      "height:" + (size * 1.5) + "px;" +
+      "background:linear-gradient(135deg, " + c + "0.5), transparent);" +
+      "border-radius:50% 50% 50% 0%;" +
+      "animation: petalFloat " + dur + "s ease-out forwards;" +
+      "transform:rotate(" + rot + "deg);" +
+      "opacity:0;" +
+      "pointer-events:none;" +
+      "position:absolute;" +
+      "z-index:16;";
     
     addEl(el, dur);
   }
-
-  function createThread(palette) {
+  
+  // Luz suave
+  function createGlow(palette) {
+    var pos = getSafePosition();
     var el = document.createElement("div");
-    el.className = "wonder-thread";
-    var p = rndPos();
-    var len = 70 + Math.random() * 160;
-    var rot = Math.random() * 180 - 90;
+    el.className = "wonder-glow";
+    var size = 60 + Math.random() * 80;
     var c = rndColor(palette);
-    var dur = 7 + Math.random() * 8;
-    var w = 0.8 + Math.random() * 2.5;
+    var dur = 5 + Math.random() * 3;
     
-    el.style.cssText =
-      "left:" + p.x + "%;" +
-      "top:" + p.y + "%;" +
-      "width:" + w + "px;" +
-      "height:" + len + "px;" +
-      "background:linear-gradient(to top, transparent, " + c + "0.85), " + c + "0.4));" +
-      "border-radius:4px;" +
-      "--rot:" + rot + "deg;" +
-      "--dur:" + dur + "s;" +
-      "--max-opacity:" + (0.5 + Math.random() * 0.45) + ";";
+    el.style.cssText = 
+      "left:" + pos.x + "%;" +
+      "top:" + pos.y + "%;" +
+      "width:" + size + "px;" +
+      "height:" + size + "px;" +
+      "background:radial-gradient(circle, " + c + "0.1), transparent);" +
+      "border-radius:50%;" +
+      "animation: glowFloat " + dur + "s ease-out forwards;" +
+      "opacity:0;" +
+      "pointer-events:none;" +
+      "position:absolute;" +
+      "filter:blur(12px);" +
+      "transform:translate(-50%, -50%);" +
+      "z-index:15;";
     
     addEl(el, dur);
   }
 
-  function createCrystal(palette) {
-    var el = document.createElement("div");
-    el.className = "wonder-crystal";
-    var p = rndPos();
-    var s = 8 + Math.random() * 18;
-    var c = rndColor(palette);
-    var dur = 6 + Math.random() * 6;
-    
-    el.style.cssText =
-      "left:" + p.x + "%;" +
-      "top:" + p.y + "%;" +
-      "width:" + s + "px;" +
-      "height:" + s + "px;" +
-      "background:" + c + "0.9);" +
-      "box-shadow:0 0 " + (s * 2.5) + "px " + c + "0.7),0 0 " + (s * 5) + "px " + c + "0.3);" +
-      "transform:rotate(45deg);" +
-      "--dur:" + dur + "s;" +
-      "--max-opacity:" + (0.5 + Math.random() * 0.45) + ";";
-    
-    addEl(el, dur);
-  }
-
-  function createStar(palette, symbolText) {
-    var el = document.createElement("div");
-    el.className = "wonder-star";
-    var p = rndPos();
-    var s = 10 + Math.random() * 22;
-    var c = rndColor(palette);
-    var dur = 4.5 + Math.random() * 6;
-    
-    if (symbolText && symbolText.length > 1) {
-      el.style.cssText =
-        "left:" + p.x + "%;" +
-        "top:" + p.y + "%;" +
-        "font-family:'Montserrat',sans-serif;" +
-        "font-size:" + (s * 0.9) + "px;" +
-        "font-weight:300;" +
-        "letter-spacing:0.1em;" +
-        "color:" + c + "0.95);" +
-        "text-shadow:0 0 30px " + c + "0.8);" +
-        "--dur:" + dur + "s;" +
-        "--max-opacity:0.85;";
-      el.textContent = symbolText;
-    } else {
-      el.style.cssText =
-        "left:" + p.x + "%;" +
-        "top:" + p.y + "%;" +
-        "width:" + s + "px;" +
-        "height:" + s + "px;" +
-        "background:radial-gradient(circle, " + c + "1.0), " + c + "0.0));" +
-        "border-radius:50%;" +
-        "box-shadow:0 0 " + (s * 2) + "px " + c + "0.9),0 0 " + (s * 4) + "px " + c + "0.4);" +
-        "--dur:" + dur + "s;" +
-        "--max-opacity:" + (0.7 + Math.random() * 0.3) + ";";
-    }
-    
-    addEl(el, dur);
-  }
-
-  function createPetal(palette) {
-    var el = document.createElement("div");
-    el.className = "wonder-petal";
-    var p = rndPos();
-    var s = 12 + Math.random() * 24;
-    var c = rndColor(palette);
-    var dur = 7 + Math.random() * 7;
-    
-    el.style.cssText =
-      "left:" + p.x + "%;" +
-      "top:" + p.y + "%;" +
-      "width:" + s + "px;" +
-      "height:" + (s * 1.5) + "px;" +
-      "background:linear-gradient(135deg, " + c + "0.7), transparent);" +
-      "box-shadow:inset 0 0 " + (s * 0.8) + "px " + c + "0.4);" +
-      "--rot:" + (Math.random() * 360) + "deg;" +
-      "--dur:" + dur + "s;" +
-      "--max-opacity:" + (0.35 + Math.random() * 0.4) + ";";
-    
-    addEl(el, dur);
-  }
-
-  function createWave(palette) {
-    var el = document.createElement("div");
-    el.className = "wonder-wave";
-    var p = rndPos();
-    var s = 25 + Math.random() * 50;
-    var c = rndColor(palette);
-    var dur = 3.5 + Math.random() * 4;
-    
-    el.style.cssText =
-      "left:calc(" + p.x + "% - " + (s / 2) + "px);" +
-      "top:calc(" + p.y + "% - " + (s / 2) + "px);" +
-      "width:" + s + "px;" +
-      "height:" + s + "px;" +
-      "border:1.5px solid " + c + "0.6);" +
-      "box-shadow:0 0 15px " + c + "0.3);" +
-      "--dur:" + dur + "s;" +
-      "--max-opacity:0.6;";
-    
-    addEl(el, dur);
-  }
-
-  function spawnOne(type, palette, symbol) {
-    switch (type) {
-      case "orb": createOrb(palette); break;
-      case "thread": createThread(palette); break;
-      case "crystal": createCrystal(palette); break;
-      case "star": createStar(palette, symbol); break;
-      case "petal": createPetal(palette); break;
-      case "wave": createWave(palette); break;
-      default: createOrb(palette);
-    }
-  }
-
-  // ─── SPAWN DE FORMAS SEGÚN LETRAS ──────────────────────────────
+  // ─── SPAWN DE FORMAS PARA LETRAS (sutil) ───────────────────────
   function spawnForLyric(text) {
     trimFloating();
-    var cfg = phraseToVisual[text] || { type: "orb", color: "gold", count: 6 };
-    var actualCount = Math.min(cfg.count + 3, 14);
-    
-    for (var i = 0; i < actualCount; i++) {
-      (function(idx) {
-        setTimeout(function() {
-          spawnOne(cfg.type, cfg.color, cfg.symbol || null);
-          if (idx % 2 === 0 && Math.random() > 0.6) {
-            setTimeout(function() {
-              createOrb("silver", 12 + Math.random() * 30);
-            }, idx * 80);
-          }
-        }, idx * 140);
-      })(i);
-    }
-    
-    for (var j = 0; j < 6; j++) {
-      (function(jdx) {
-        setTimeout(function() { 
-          createOrb("silver", 12 + Math.random() * 30);
-          if (Math.random() > 0.75) createStar("gold", null);
-        }, jdx * 220 + 120);
-      })(j);
-    }
+    createStardust("gold", 2 + Math.floor(Math.random() * 3));
+    if (Math.random() > 0.7) createPetal("rose");
   }
 
-  function spawnForAmbar() {
+  // ─── SPAWN DE FRASE FLOTANTE PARA ÁMBAR (SOLO FONDO) ───────────
+  var activatedPhrases = {};
+  
+  function spawnAmbarFloatingPhrase(message) {
+    var msgKey = message.text + message.time;
+    if (activatedPhrases[msgKey]) return;
+    activatedPhrases[msgKey] = true;
+    
     trimFloating();
-    for (var i = 0; i < 25; i++) {
-      (function(idx) {
-        setTimeout(function() {
-          createStar("gold", null);
-          createCrystal("gold");
-          createOrb("rose", 12 + Math.random() * 35);
-          if (idx % 3 === 0) createPetal("rose");
-          if (idx % 4 === 0) createWave("gold");
-        }, idx * 100);
-      })(i);
-    }
     
-    for (var j = 0; j < 15; j++) {
-      setTimeout(function() {
-        createOrb("gold", 20 + Math.random() * 45);
-      }, j * 180);
-    }
+    // Crear la frase flotante en posición segura (fondo)
+    createFloatingPhrase(message.text, "gold");
+    
+    // Acompañar con elementos visuales
+    setTimeout(function() {
+      createStardust("gold", 5);
+      createStardust("rose", 3);
+    }, 200);
+    
+    setTimeout(function() {
+      createGlow("gold");
+      createPetal("rose");
+    }, 500);
   }
 
-  // ─── FORMAS AMBIENTALES CONTINUAS ──────────────────────────────
+  // ─── FORMAS AMBIENTALES SUTILES ────────────────────────────────
   setInterval(function() {
     if (!audio || audio.paused) return;
-    var ambPalette = ["gold", "silver", "white", "warm"];
-    var c = ambPalette[Math.floor(Math.random() * ambPalette.length)];
+    var rand = Math.random();
     
-    if (Math.random() > 0.65) createOrb(c, 10 + Math.random() * 35);
-    if (Math.random() > 0.75) createThread(c);
-    if (Math.random() > 0.8) createCrystal(c);
-    if (Math.random() > 0.85) createStar(c, null);
-    if (Math.random() > 0.9) createPetal(c);
-  }, 400);
+    if (rand < 0.35) {
+      createStardust("gold", 1 + Math.floor(Math.random() * 2));
+    } else if (rand < 0.6) {
+      createPetal("rose");
+    }
+  }, 2800);
 
-  // ─── ACTUALIZACIÓN DE LETRAS ───────────────────────────────────
+  // ─── ACTUALIZACIÓN DE LETRAS (LAS LETRAS PRINCIPALES NO SE TOCAN) ───
   var currentLineIndex = -1;
-  var currentAmbarIndex = -1;
 
   function updateLyrics() {
     if (!audio || !lyricsEl) return;
     var currentTime = audio.currentTime;
 
-    // Verificar mensajes de Ámbar
-    var ambarActive = null;
-    for (var a = 0; a < ambarMessages.length; a++) {
-      var msg = ambarMessages[a];
+    // Verificar frases flotantes de Ámbar (SOLO FONDO, NO MODIFICAN LAS LETRAS)
+    for (var a = 0; a < ambarFloatingPhrases.length; a++) {
+      var msg = ambarFloatingPhrases[a];
       if (currentTime >= msg.time && currentTime < msg.time + msg.duration) {
-        ambarActive = msg;
+        spawnAmbarFloatingPhrase(msg);
         break;
       }
     }
 
-    if (ambarActive) {
-      if (currentAmbarIndex !== ambarActive.text) {
-        currentAmbarIndex = ambarActive.text;
-        currentLineIndex = -1;
-        lyricsEl.style.opacity = 0;
-        setTimeout(function() {
-          lyricsEl.innerHTML = ambarActive.text;
-          lyricsEl.style.opacity = 1;
-          lyricsEl.className = "ambar-message";
-          spawnForAmbar();
-        }, 200);
-      }
-      return;
-    }
-
-    // Salir del modo Ámbar
-    if (lyricsEl.className === "ambar-message") {
-      lyricsEl.className = "";
-      currentAmbarIndex = -1;
-    }
-
-    // Buscar línea activa de la canción
+    // --- LETRAS PRINCIPALES (INTOCABLES) ---
     var activeLine = null;
     var activeIndex = -1;
     for (var i = 0; i < lyricsData.length; i++) {
@@ -499,7 +443,6 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
           lyricsEl.innerHTML = lyricText;
           lyricsEl.style.opacity = 1;
-          lyricsEl.className = "";
           spawnForLyric(lyricText);
         }, 200);
       } else {
@@ -512,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(updateLyrics, 50);
   if (audio) audio.addEventListener("timeupdate", updateLyrics);
 
-  // ─── FUNCIÓN DEL TÍTULO (más duradero) ────────────────────────
+  // ─── TÍTULO ────────────────────────────────────────────────────
   function ocultarTitulo() {
     var titulo = document.querySelector(".titulo");
     if (!titulo) return;
@@ -521,53 +464,30 @@ document.addEventListener("DOMContentLoaded", function() {
     titulo.style.opacity = "1";
     titulo.style.animation = "titleFadeIn 10s ease-in-out forwards";
     
-    // Generar formas especiales para el título
-    for (var i = 0; i < 35; i++) {
-      setTimeout(function() {
-        createStar("gold", null);
-        createOrb("gold", 15 + Math.random() * 40);
-        if (Math.random() > 0.7) createCrystal("gold");
-        if (Math.random() > 0.8) createPetal("rose");
-      }, i * 150);
-    }
+    createStardust("gold", 20);
+    createGlow("gold");
     
-    // Ocultar después de 12 segundos
     setTimeout(function() {
       titulo.style.opacity = "0";
       titulo.style.transition = "opacity 2.5s ease-in-out";
       setTimeout(function() {
         titulo.style.display = "none";
       }, 2500);
-    }, 12000);
+    }, 10000);
   }
 
   setTimeout(ocultarTitulo, 1000);
 
-  // ─── AUTOPLAY (requiere interacción del usuario) ───────────────
+  // ─── AUTOPLAY ──────────────────────────────────────────────────
   document.body.addEventListener("click", function() {
     if (audio && audio.paused) {
       audio.play().catch(function(e) { 
-        console.log("Autoplay bloqueado por el navegador:", e); 
+        console.log("Autoplay:", e); 
       });
     }
   });
 
-  // ─── MOSTRAR QUE TODO ESTÁ LISTO ───────────────────────────────
-  console.log("✨ Wonder Visual Engine listo! 🌸");
-  console.log("📝 Líneas de canción: " + lyricsData.length);
-  console.log("💖 Mensajes para Ámbar: " + ambarMessages.length);
-  console.log("🎨 Formas visuales activas");
-  
-  // Pequeña demo visual al cargar
-  setTimeout(function() {
-    if (!audio || audio.paused) {
-      for (var i = 0; i < 8; i++) {
-        setTimeout(function() {
-          createOrb("gold", 20 + Math.random() * 50);
-          createStar("silver", null);
-        }, i * 200);
-      }
-    }
-  }, 500);
-  
-}); // fin DOMContentLoaded
+  console.log("✨ Wonder Visual Engine - Frases flotantes en fondo listo! 🌸");
+  console.log("📝 Las letras principales NO se modifican");
+  console.log("💖 Frases para Ámbar aparecen en el fondo en:", ambarFloatingPhrases.map(m => m.time + "s").join(", "));
+});
