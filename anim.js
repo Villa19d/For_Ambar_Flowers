@@ -96,11 +96,11 @@ var ambarFloatingPhrases = [
   
   // Final de la canción
   { text: "Mi vida hermosa eres la mejor", time: 131, duration: 4.5 },
-  { text: "Mi princesa, eres la mas capaz para todo", time: 135, duration: 4 },
+  { text: "Mi princesa, eres la más capaz para todo", time: 135, duration: 4 },
   { text: "Eres mi mejor amiga, novia y equipo", time: 139, duration: 4.5 },
   { text: "Gracias por ser quien eres, mi amor", time: 143, duration: 4.5 },
   { text: "Te amo más de lo que las palabras pueden decir", time: 148, duration: 5 },
-  { text: "Mi noña bonita, Te Amo", time: 153, duration: 5 } // Un último cierre personal
+  { text: "Mi niña bonita, Te Amo", time: 153, duration: 5 } // Un último cierre personal
 ];
 
 // ─── PALETAS DE COLORES ELEGANTES ────────────────────────────────
@@ -122,42 +122,72 @@ document.addEventListener("DOMContentLoaded", function() {
   var canvas = document.querySelector("#wonder-canvas");
   var ctx = canvas ? canvas.getContext("2d") : null;
 
-  // ─── ZONAS PROHIBIDAS (NO aparecer sobre flores ni sobre el área de letras) ───
-  var forbiddenZones = [
-  { xMin: 35, xMax: 65, yMin: 58, yMax: 92 },   // Zona de flores (un poco más pequeña)
-  { xMin: 38, xMax: 62, yMin: 25, yMax: 48 }    // Zona de letras (más centrada)
+  // ─── ZONAS PROHIBIDAS (evita flores, letras y bordes) ───────────────
+var forbiddenZones = [
+  { xMin: 32, xMax: 68, yMin: 55, yMax: 92 },   // Zona de flores (más ajustada)
+  { xMin: 35, xMax: 65, yMin: 20, yMax: 48 }    // Zona de letras (centro)
 ];
-  
-  function isSafePosition(x, y) {
-    for (var i = 0; i < forbiddenZones.length; i++) {
-      var zone = forbiddenZones[i];
-      if (x >= zone.xMin && x <= zone.xMax && y >= zone.yMin && y <= zone.yMax) {
-        return false;
-      }
+
+function isSafePosition(x, y) {
+  for (var i = 0; i < forbiddenZones.length; i++) {
+    var zone = forbiddenZones[i];
+    if (x >= zone.xMin && x <= zone.xMax && y >= zone.yMin && y <= zone.yMax) {
+      return false;
     }
-    return true;
   }
+  return true;
+}
+
+function getSafePosition() {
+  // Detectar si es móvil (pantalla pequeña)
+  var isMobile = window.innerWidth <= 768;
+  var maxAttempts = 50;
   
- function getSafePosition() {
-  var maxAttempts = 40;
-  // Margen de 8% en los bordes para que no se peguen a la pared
-  var margin = 8;
+  // Margen variable según dispositivo
+  var marginX = isMobile ? 15 : 12;  // Más margen en móviles
+  var marginY = isMobile ? 20 : 15;
   
   for (var i = 0; i < maxAttempts; i++) {
-    var x = margin + Math.random() * (100 - margin * 2);
-    var y = margin + Math.random() * (100 - margin * 2);
+    // En móviles, evitar los extremos horizontales
+    var x, y;
+    
+    if (isMobile) {
+      // En móviles, usar solo el 20% al 80% del ancho
+      x = 20 + Math.random() * 60;
+      // Altura: evitar zona de flores (abajo) y letras (centro)
+      y = 10 + Math.random() * 70;
+    } else {
+      x = marginX + Math.random() * (100 - marginX * 2);
+      y = marginY + Math.random() * (100 - marginY * 2);
+    }
+    
     if (isSafePosition(x, y)) {
       return { x: x, y: y };
     }
   }
   
-  // Si no encuentra, devuelve posiciones con más margen
+  // Si no encuentra posición segura, usar posiciones predefinidas según dispositivo
+  if (isMobile) {
+    var mobilePositions = [
+      { x: 15, y: 15 },   // esquina superior izquierda
+      { x: 70, y: 15 },   // esquina superior derecha
+      { x: 15, y: 40 },   // izquierda media
+      { x: 70, y: 40 },   // derecha media
+      { x: 15, y: 65 },   // izquierda baja (evitando flores)
+      { x: 70, y: 65 }    // derecha baja (evitando flores)
+    ];
+    var randomPos = mobilePositions[Math.floor(Math.random() * mobilePositions.length)];
+    return { x: randomPos.x, y: randomPos.y };
+  }
+  
+  // Para desktop, usar bordes con margen
   var side = Math.floor(Math.random() * 4);
-  if (side === 0) return { x: margin + Math.random() * 25, y: margin + Math.random() * 40 };
-  if (side === 1) return { x: 75 - Math.random() * 25, y: margin + Math.random() * 40 };
-  if (side === 2) return { x: margin + Math.random() * 25, y: 60 - Math.random() * 30 };
-  return { x: 75 - Math.random() * 25, y: 60 - Math.random() * 30 };
+  if (side === 0) return { x: marginX + Math.random() * 20, y: marginY + Math.random() * 30 };
+  if (side === 1) return { x: 80 - Math.random() * 20, y: marginY + Math.random() * 30 };
+  if (side === 2) return { x: marginX + Math.random() * 20, y: 60 - Math.random() * 20 };
+  return { x: 80 - Math.random() * 20, y: 60 - Math.random() * 20 };
 }
+  
 
   // ─── CONFIGURACIÓN DEL CANVAS ───────────────────────────────────
   function resizeCanvas() {
@@ -242,40 +272,56 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // ─── FRASES FLOTANTES DE FONDO (NO TOCAN LAS LETRAS) ────────────
-  function createFloatingPhrase(text, palette) {
-    var pos = getSafePosition();
-    var el = document.createElement("div");
-    el.className = "wonder-floating-phrase";
-    var c = rndColor(palette);
-    var dur = 4 + Math.random() * 2.5;
-    var fontSize = 13 + Math.random() * 7;
-    var rot = (Math.random() - 0.5) * 12;
-    var directionX = (Math.random() - 0.5) * 60;
-    var directionY = -40 - Math.random() * 50;
-    
-    el.textContent = text;
-    el.style.cssText = 
-      "left:" + pos.x + "%;" +
-      "top:" + pos.y + "%;" +
-      "font-family:'Cormorant Garamond', serif;" +
-      "font-size:" + fontSize + "px;" +
-      "font-weight:300;" +
-      "font-style:italic;" +
-      "color:" + c + "0.85);" +
-      "text-shadow:0 0 10px " + c + "0.5);" +
-      "letter-spacing:0.02em;" +
-      "white-space:nowrap;" +
-      "animation: phraseFloatBg " + dur + "s ease-out forwards;" +
-      "opacity:0;" +
-      "pointer-events:none;" +
-      "position:absolute;" +
-      "transform:rotate(" + rot + "deg);" +
-      "z-index:18;" +
-      "--move-x:" + directionX + "px;" +
-      "--move-y:" + directionY + "px;";
-    
-    addEl(el, dur);
+function createFloatingPhrase(text, palette) {
+  var pos = getSafePosition();
+  var el = document.createElement("div");
+  el.className = "wonder-floating-phrase";
+  var c = rndColor(palette);
+  
+  // Detectar si es móvil
+  var isMobile = window.innerWidth <= 768;
+  
+  // Duración más corta en móviles para no saturar
+  var dur = isMobile ? 3.5 + Math.random() * 2 : 4 + Math.random() * 2.5;
+  
+  // Tamaño de fuente según dispositivo
+  var fontSize;
+  if (isMobile) {
+    fontSize = 11 + Math.random() * 4;  // 11-15px en móviles
+  } else {
+    fontSize = 13 + Math.random() * 7;   // 13-20px en desktop
   }
+  
+  var rot = (Math.random() - 0.5) * 10;  // Menor rotación en móviles
+  var directionX = (Math.random() - 0.5) * (isMobile ? 30 : 50);
+  var directionY = -30 - Math.random() * (isMobile ? 30 : 50);
+  
+  el.textContent = text;
+  el.style.cssText = 
+    "left:" + pos.x + "%;" +
+    "top:" + pos.y + "%;" +
+    "font-family:'Cormorant Garamond', serif;" +
+    "font-size:" + fontSize + "px;" +
+    "font-weight:300;" +
+    "font-style:italic;" +
+    "color:" + c + "0.85);" +
+    "text-shadow:0 0 10px " + c + "0.5);" +
+    "letter-spacing:0.02em;" +
+    "white-space:normal;" +
+    "word-wrap:break-word;" +
+    "max-width:" + (isMobile ? "75vw" : "40vw") + ";" +
+    "text-align:center;" +
+    "animation: phraseFloatBg " + dur + "s ease-out forwards;" +
+    "opacity:0;" +
+    "pointer-events:none;" +
+    "position:absolute;" +
+    "transform:rotate(" + rot + "deg);" +
+    "z-index:18;" +
+    "--move-x:" + directionX + "px;" +
+    "--move-y:" + directionY + "px;";
+  
+  addEl(el, dur);
+}
 
   // ─── FORMAS ELEGANTES ──────────────────────────────────────────
   
